@@ -19,10 +19,12 @@
  * KIND, either express or implied.
  *
  ***************************************************************************/
+
 /* <DESC>
  * Simple HTTPS GET
  * </DESC>
  */
+
 #include <stdio.h>
 #include <curl/curl.h>
 

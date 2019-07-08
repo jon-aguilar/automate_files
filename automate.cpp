@@ -30,5 +30,6 @@
 
 std::string automate::get_html_file()
 {
+
     return "the string";
 }

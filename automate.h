@@ -8,7 +8,9 @@ class automate
 public:
     std::string get_html_file();
 
+
 private:
+
 
 };
 
