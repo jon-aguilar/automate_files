@@ -1,5 +1,5 @@
 
-#include "automate.hxx"
+#include "automate.h"
 
 #include <iostream>
 #include <string>

@@ -1,13 +1,13 @@
 
 #include <iostream>
 
-#include "automate.hxx"
+#include "automate.h"
 
 int main( void )
 {
     automate a;
 
-    std::cout << "in the main\n";
+    std::cout << "in the main right now\n";
     
     return 0;
 }

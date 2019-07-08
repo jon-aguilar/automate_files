@@ -1,5 +1,5 @@
-#ifndef AUTOMATE_HXX
-#define AUTOMATE_HXX
+#ifndef AUTOMATE_H
+#define AUTOMATE_H
 
 #include <string>
 
