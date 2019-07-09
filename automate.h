@@ -6,10 +6,13 @@
 class automate
 {
 public:
-    std::string get_html_file();
-
-
+    // TODO: change the function to have string param -----------------------------
+    //std::string html_to_string( std::string html_file );
+    std::string html_to_string( );
+    
 private:
+    static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
+        
 
 
 };

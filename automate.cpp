@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <curl/curl.h>
 
 
 /*
@@ -27,9 +28,36 @@
 */
 
 
-
-std::string automate::get_html_file()
+// will be used to convert the html file to string 
+size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
 
-    return "the string";
+
+// TODO: change the function to have string param -----------------------------
+//std::string automate::html_to_string( std::string html_file )
+std::string automate::html_to_string( )
+{
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    curl = curl_easy_init();
+    if( curl ) 
+    {
+        curl_easy_setopt( curl, CURLOPT_URL, "http://omega.uta.edu/~darin/CSE2320/" );
+
+        // html to string and store in readBuffer
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+
+        //std::cout << readBuffer << std::endl;
+    }
+
+    return readBuffer;
 }
