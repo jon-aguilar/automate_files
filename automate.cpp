@@ -1,3 +1,29 @@
+// 
+// MIT License
+// 
+// Copyright (c) 2019 Jonathan Aguilar
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+
+
+
 
 #include "automate.h"
 
@@ -67,15 +93,7 @@ std::string automate::html_to_string( )
 // will have line from html_str
 void automate::load_vector( std::string html_str )
 { 
-
-    //std::string line = "GeeksForGeeks is a must try\nThis is the next line"; 
-    //std::cout << "first:\n" << line << std::endl;
-
-    // Vector of string to save tokens 
-    //std::vector <std::string> html_lines; 
-
     std::stringstream the_stream( html_str ); 
-
     std::string token; 
 
     // tokenize by new line
@@ -84,11 +102,98 @@ void automate::load_vector( std::string html_str )
         html_lines.push_back( token ); 
     } 
 
-    // Printing the token vector 
-    for(int i = 0; i < html_lines.size(); i++) 
-        std::cout << "i: " << i << " " << html_lines[i] << '\n'; 
+    //// Printing the token vector 
+    //for(int i = 0; i < html_lines.size(); i++) 
+    //    std::cout << "i: " << i << " " << html_lines[i] << '\n'; 
 } 
 
 
+void automate::find_hw_pdf( )
+{
+    int count = 0;
+
+    // stop size - 1 
+    // to avoid going out of bounds 
+    // in the vector 
+    for( int i = 0; i < html_lines.size() - 1; i++ )
+    {
+        //std::string line = html_lines[i];     
+
+        if( html_lines[i].find("homework") != std::string::npos  &&
+            html_lines[i + 1].find(".pdf") != std::string::npos )
+        {
+            std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+            count++;
+        }
+
+        //std::stringstream the_stream( line ); 
+        //std::string token;
+
+        //// tokenize the current line by a space, 
+        //// then find the word homework
+        //// if homework is found then the 
+        //// next line should have the pdf 
+        //// and the pdf will be stored in the vector hw_pdf
+        //while( getline( the_stream, token, ' ') )
+        //{
+        //    if( token == "homework" )  
+        //    {
+        //        //std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+        //        
+        //        if( html_lines[i + 1].find(".pdf") != std::string::npos )
+        //        {
+        //            std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+        //            count++;
+        //        }
 
 
+        //    }
+        //}
+    }
+    std::cout << "count = " << count << std::endl;
+}
+
+
+// function below works  but is longer than it needs to be 
+// so instead tokenizing each line. which is not needed yet
+// just check each line and use string::find()
+// to see if it matches homework and .pdf
+
+
+// void automate::find_hw_pdf( )
+// {
+//     int count = 0;
+// 
+//     // stop size - 1 
+//     // to avoid going out of bounds 
+//     // in the vector 
+//     for( int i = 0; i < html_lines.size() - 1; i++ )
+//     {
+//         std::string line = html_lines[i];     
+// 
+//         std::stringstream the_stream( line ); 
+//         std::string token;
+// 
+//         // tokenize the current line by a space, 
+//         // then find the word homework
+//         // if homework is found then the 
+//         // next line should have the pdf 
+//         // and the pdf will be stored in the vector hw_pdf
+//         while( getline( the_stream, token, ' ') )
+//         {
+//             if( token == "homework" )  
+//             {
+//                 //std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+//                 
+//                 if( html_lines[i + 1].find(".pdf") != std::string::npos )
+//                 {
+//                     std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+//                     count++;
+//                 }
+// 
+// 
+//             }
+//         }
+//     }
+//     std::cout << "count = " << count << std::endl;
+// }
