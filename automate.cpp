@@ -4,13 +4,14 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
+#include <sstream> 
 
 
 /*
     -------------------- JON NOTES FOR PROJECT -----------------
     1.  save the variable res into a string 
         then inside the string you will parse 
-        probably by spaces save the results in 
+        probably by newlines save the results in 
         a vector
 
     2.  filter out the parsed-vector and look for 
@@ -36,7 +37,7 @@ size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *
 }
 
 
-// TODO: change the function to have string param -----------------------------
+// TODO: change the function to have string param like below ------------------------------------
 //std::string automate::html_to_string( std::string html_file )
 std::string automate::html_to_string( )
 {
@@ -61,3 +62,33 @@ std::string automate::html_to_string( )
 
     return readBuffer;
 }
+
+// each element in the vector 
+// will have line from html_str
+void automate::load_vector( std::string html_str )
+{ 
+
+    //std::string line = "GeeksForGeeks is a must try\nThis is the next line"; 
+    //std::cout << "first:\n" << line << std::endl;
+
+    // Vector of string to save tokens 
+    //std::vector <std::string> html_lines; 
+
+    std::stringstream the_stream( html_str ); 
+
+    std::string token; 
+
+    // tokenize by new line
+    while( getline(the_stream, token, '\n') ) 
+    { 
+        html_lines.push_back( token ); 
+    } 
+
+    // Printing the token vector 
+    for(int i = 0; i < html_lines.size(); i++) 
+        std::cout << "i: " << i << " " << html_lines[i] << '\n'; 
+} 
+
+
+
+
