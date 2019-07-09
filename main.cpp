@@ -64,8 +64,8 @@ int main( void )
      
     std::string html_str = a.html_to_string( );
     //std::cout << html_str << std::endl;
-    a.load_vector( html_str );
-    a.find_hw_pdf( );
+    a.load_html_vector( html_str );
+    a.load_hw_vector( );
 
 
     return 0;

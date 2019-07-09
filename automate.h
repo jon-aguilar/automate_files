@@ -37,12 +37,12 @@ public:
     // TODO: change the function to have string param -----------------------------
     //std::string html_to_string( std::string html_file );
     std::string html_to_string( );
-    void load_vector( std::string html_str ); 
-    void find_hw_pdf( ); 
+    void load_html_vector( std::string html_str ); 
+    void load_hw_vector( ); 
      
 private:
     std::vector <std::string> html_lines;
-    std::vector <std::string> hw_pdf;
+    std::vector <std::string> hw_file_name;
 
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
