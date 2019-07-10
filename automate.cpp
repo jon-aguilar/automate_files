@@ -31,6 +31,10 @@
 #include <string>
 #include <curl/curl.h>
 #include <sstream> 
+#include <sys/stat.h> 
+#include <sys/types.h> 
+
+#include <stdio.h>
 
 
 /*
@@ -86,6 +90,7 @@ size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *
 
 
 // TODO: change the function to have string param like below ------------------------------------
+//     to make it work call c_str() where the URL goes to convert to C string 
 //std::string automate::html_to_string( std::string html_file )
 std::string automate::html_to_string( )
 {
@@ -149,7 +154,7 @@ void automate::load_hw_vector( )
         if( html_lines[i].find("homework") != std::string::npos  &&
             html_lines[i + 1].find(".pdf") != std::string::npos )
         {
-            std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
+            //std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
             
             std::stringstream file_name_line( html_lines[i + 1] );
             std::string token;
@@ -174,6 +179,37 @@ void automate::load_hw_vector( )
     //{
     //    std::cout << "--i: " << i << " " << hw_file_name[i] << std::endl;
     //}
+}
+
+//                       TODO ------------------------------------------------------------------------
+
+// fix for multiple directories
+// look back at my notes for fixing the problem 
+
+// if dir already exists then the mkdir will
+// fail. the mikdir doc says that it will fail in that condition
+void automate::create_dir()
+{
+    for( int i = 0; i < hw_file_name.size(); i++ )
+    {
+        //std::cout << "--i: " << i << " " << hw_file_name[i] << std::endl;
+
+        // creating the directory name
+        char dir_name[50];
+
+        sprintf( dir_name, "hw%02d", i + 1 );
+        //std::string dir_name = buffer;
+        
+        std::cout << "dir_name: " << dir_name << std::endl;
+
+
+        // Creating directory 
+        if ( mkdir( dir_name, 0777) == -1 ) 
+            std::cerr << "Error creating directory\n"; 
+
+        else
+            std::cout << "Directory " <<  dir_name  << " created\n"; 
+    }
 }
 
 

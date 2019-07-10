@@ -39,6 +39,7 @@ public:
     std::string html_to_string( );
     void load_html_vector( std::string html_str ); 
     void load_hw_vector( ); 
+    void create_dir();
      
 private:
     std::vector <std::string> html_lines;

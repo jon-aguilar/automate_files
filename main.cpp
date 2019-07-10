@@ -66,6 +66,7 @@ int main( void )
     //std::cout << html_str << std::endl;
     a.load_html_vector( html_str );
     a.load_hw_vector( );
+    a.create_dir();
 
 
     return 0;
