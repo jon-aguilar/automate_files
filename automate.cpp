@@ -22,9 +22,6 @@
 // SOFTWARE.
 
 
-
-
-
 #include "automate.h"
 
 #include <iostream>
@@ -54,8 +51,6 @@
         and since the brezeale_html file will be opened multiple times i 
         dont want to overwrite the existing directories that have been created already
         since steps 1 and 2 not know what directories have been created.
-
-
 */
 
 
@@ -64,7 +59,6 @@
 //      Now that the hw_file_name vector is populated 
 //      I need to download that file from brezeale website
 //      which will require doing more libcurl 
-
 
 //                          NOTE: 
 //      when constructing directory names ( EX: hw01, hw02, ... )
@@ -78,9 +72,6 @@
 
 
 
-
-
-
 // will be used to convert the html file to string 
 size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -88,11 +79,7 @@ size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *
     return size * nmemb;
 }
 
-
-// TODO: change the function to have string param like below ------------------------------------
-//     to make it work call c_str() where the URL goes to convert to C string 
-//std::string automate::html_to_string( std::string html_file )
-std::string automate::html_to_string( )
+std::string automate::html_to_string( std::string url )
 {
     CURL *curl;
     CURLcode res;
@@ -101,7 +88,7 @@ std::string automate::html_to_string( )
     curl = curl_easy_init();
     if( curl ) 
     {
-        curl_easy_setopt( curl, CURLOPT_URL, "http://omega.uta.edu/~darin/CSE2320/" );
+        curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
 
         // html to string and store in readBuffer
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -174,11 +161,6 @@ void automate::load_hw_vector( )
         }
     }
     std::cout << "count = " << count << std::endl;
-
-    //for( int i = 0; i < hw_file_name.size(); i++ )
-    //{
-    //    std::cout << "--i: " << i << " " << hw_file_name[i] << std::endl;
-    //}
 }
 
 //                       TODO ------------------------------------------------------------------------
@@ -214,10 +196,7 @@ size_t automate::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
     return written;
 }
 
-//              TODO:
-
-//       add param of std::string URL
-void automate::download_pdf( )
+void automate::download_pdf( std::string url )
 {
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
@@ -225,15 +204,14 @@ void automate::download_pdf( )
         FILE *fp;
         CURLcode res;
 
-        std::string url = "http://omega.uta.edu/~darin/CSE2320/";
         std::string out_file_name = hw_file_name[i];
-        url += out_file_name;
+        std::string temp_url = url + out_file_name;
         curl = curl_easy_init();
 
         if( curl ) 
         {
             fp = fopen( out_file_name.c_str(), "wb" );
-            curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
+            curl_easy_setopt( curl, CURLOPT_URL, temp_url.c_str() );
 
             curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
             curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );

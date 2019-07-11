@@ -34,16 +34,12 @@
 class automate
 {
 public:
-    // TODO: change the function to have string param -----------------------------
-    //std::string html_to_string( std::string html_file );
-    std::string html_to_string( );
+    std::string html_to_string( std::string url );
     void load_html_vector( std::string html_str ); 
     void load_hw_vector( ); 
     void create_dir( );
 
-// TODO:
-// add param of std::string URL
-    void download_pdf( );
+    void download_pdf( std::string url );
      
 private:
     std::vector <std::string> html_lines;
