@@ -188,28 +188,63 @@ void automate::load_hw_vector( )
 
 // if dir already exists then the mkdir will
 // fail. the mikdir doc says that it will fail in that condition
-void automate::create_dir()
+void automate::create_dir( )
 {
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
-        //std::cout << "--i: " << i << " " << hw_file_name[i] << std::endl;
-
         // creating the directory name
         char dir_name[50];
 
         sprintf( dir_name, "hw%02d", i + 1 );
-        //std::string dir_name = buffer;
-        
         std::cout << "dir_name: " << dir_name << std::endl;
-
 
         // Creating directory 
         if ( mkdir( dir_name, 0777) == -1 ) 
             std::cerr << "Error creating directory\n"; 
-
-        else
-            std::cout << "Directory " <<  dir_name  << " created\n"; 
+        //else
+        //    std::cout << "Directory " <<  dir_name  << " created\n"; 
     }
 }
 
+// will be used for downloading the pdf
+// in download_pdf()
+size_t automate::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) 
+{
+    size_t written = fwrite(ptr, size, nmemb, stream);
+    return written;
+}
+
+//              TODO:
+
+//       add param of std::string URL
+void automate::download_pdf( )
+{
+    for( int i = 0; i < hw_file_name.size(); i++ )
+    {
+        CURL *curl;
+        FILE *fp;
+        CURLcode res;
+
+        std::string url = "http://omega.uta.edu/~darin/CSE2320/";
+        std::string out_file_name = hw_file_name[i];
+        url += out_file_name;
+        curl = curl_easy_init();
+
+        if( curl ) 
+        {
+            fp = fopen( out_file_name.c_str(), "wb" );
+            curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
+
+            curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
+            curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );
+
+            res = curl_easy_perform( curl );
+            /* always cleanup */
+            curl_easy_cleanup( curl );
+            fclose( fp );
+
+            std::cout << "created " << out_file_name << std::endl;
+        }
+    }
+}
 

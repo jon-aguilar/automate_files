@@ -39,14 +39,20 @@ public:
     std::string html_to_string( );
     void load_html_vector( std::string html_str ); 
     void load_hw_vector( ); 
-    void create_dir();
+    void create_dir( );
+
+// TODO:
+// add param of std::string URL
+    void download_pdf( );
      
 private:
     std::vector <std::string> html_lines;
+
+    // in the form 2320-hw01.pdf
     std::vector <std::string> hw_file_name;
 
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
-
+    static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
 
 };
 
