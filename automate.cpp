@@ -34,44 +34,6 @@
 #include <stdio.h>
 
 
-/*
-    -------------------- JON NOTES FOR PROJECT -----------------
-    1.  save the variable res into a string 
-        then inside the string you will parse 
-        probably by newlines save the results in 
-        a vector
-
-    2.  filter out the parsed-vector and look for 
-        pdf file names. Save the pdf file names in
-        an other vector.
-
-    3.  next save the pdf file names in a file.txt
-        this will help me avoid creating multiple directory 
-        names.  the directory names will be based on the pdf files that were found
-        and since the brezeale_html file will be opened multiple times i 
-        dont want to overwrite the existing directories that have been created already
-        since steps 1 and 2 not know what directories have been created.
-*/
-
-
-// ---------  TODO: -----------------------------------------------------------------------------
-//
-//      Now that the hw_file_name vector is populated 
-//      I need to download that file from brezeale website
-//      which will require doing more libcurl 
-
-//                          NOTE: 
-//      when constructing directory names ( EX: hw01, hw02, ... )
-//      remember the index of the element (vector) is basically telling you the number for 
-//      the directory and since i know the directory name will start will hw_then_the_number
-
-//      vector                      dir_names  (then convert num to string and pad zero )
-//      i: 0    2320-hw01           hw01       i+1 to get number 
-//      i: 1    2320-hw02           hw02       i+1 to get number
-//      i: 2    2320-hw03           hw03       i+1 to get number
-
-
-
 // will be used to convert the html file to string 
 size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -170,7 +132,7 @@ void automate::load_hw_vector( )
 
 // if dir already exists then the mkdir will
 // fail. the mikdir doc says that it will fail in that condition
-void automate::create_dir( )
+void automate::create_dir_n_pdf( std::string url )
 {
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
@@ -185,6 +147,7 @@ void automate::create_dir( )
             std::cerr << "Error creating directory\n"; 
         //else
         //    std::cout << "Directory " <<  dir_name  << " created\n"; 
+        download_pdf( url, hw_file_name[i] );
     }
 }
 
@@ -196,33 +159,29 @@ size_t automate::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
     return written;
 }
 
-void automate::download_pdf( std::string url )
+void automate::download_pdf( std::string url, std::string out_file_name )
 {
-    for( int i = 0; i < hw_file_name.size(); i++ )
+    CURL *curl;
+    FILE *fp;
+    CURLcode res;
+
+    url += out_file_name;
+    curl = curl_easy_init();
+
+    if( curl ) 
     {
-        CURL *curl;
-        FILE *fp;
-        CURLcode res;
+        fp = fopen( out_file_name.c_str(), "wb" );
+        curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
 
-        std::string out_file_name = hw_file_name[i];
-        std::string temp_url = url + out_file_name;
-        curl = curl_easy_init();
+        curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
+        curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );
 
-        if( curl ) 
-        {
-            fp = fopen( out_file_name.c_str(), "wb" );
-            curl_easy_setopt( curl, CURLOPT_URL, temp_url.c_str() );
+        res = curl_easy_perform( curl );
+        /* always cleanup */
+        curl_easy_cleanup( curl );
+        fclose( fp );
 
-            curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
-            curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );
-
-            res = curl_easy_perform( curl );
-            /* always cleanup */
-            curl_easy_cleanup( curl );
-            fclose( fp );
-
-            std::cout << "created " << out_file_name << std::endl;
-        }
+        std::cout << "created file: " << out_file_name << std::endl;
     }
 }
 
