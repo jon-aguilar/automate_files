@@ -32,6 +32,7 @@
 #include <sys/types.h> 
 
 #include <stdio.h>
+#include <unistd.h>
 
 
 // will be used to convert the html file to string 
@@ -147,7 +148,7 @@ void automate::create_dir_n_pdf( std::string url )
             std::cerr << "Error creating directory\n"; 
         //else
         //    std::cout << "Directory " <<  dir_name  << " created\n"; 
-        download_pdf( url, hw_file_name[i] );
+        download_pdf( url, hw_file_name[i], dir_name );
     }
 }
 
@@ -159,18 +160,37 @@ size_t automate::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)
     return written;
 }
 
-void automate::download_pdf( std::string url, std::string out_file_name )
+void automate::download_pdf( std::string url, std::string file_to_get, std::string hw_dir )
 {
     CURL *curl;
     FILE *fp;
     CURLcode res;
 
-    url += out_file_name;
+    url += file_to_get;
     curl = curl_easy_init();
 
+    // current working directory 
+    // will be used to save the
+    // hw file in the correct hw directory 
+    std::string out_file = ""; 
+    char curr_work_dir[1024];
+
+    // construct the path for where
+    // the hw file will be saved
+    if( getcwd(curr_work_dir, sizeof(curr_work_dir)) != NULL )
+    {
+        std::string temp = curr_work_dir;
+        out_file = temp + "/" + hw_dir + "/" + file_to_get; 
+        std::cout << "location: " << out_file << std::endl;
+    }
+    else
+        std::cout << "error with cwd\n";
+
+    // download the hw file from the website
     if( curl ) 
     {
-        fp = fopen( out_file_name.c_str(), "wb" );
+        fp = fopen( out_file.c_str(), "wb" );
+        //fp = fopen( file_to_get.c_str(), "wb" );
         curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
 
         curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
@@ -181,7 +201,34 @@ void automate::download_pdf( std::string url, std::string out_file_name )
         curl_easy_cleanup( curl );
         fclose( fp );
 
-        std::cout << "created file: " << out_file_name << std::endl;
+        std::cout << "created file: " << file_to_get << std::endl;
     }
 }
 
+
+//void automate::download_pdf( std::string url, std::string out_file_name )
+//{
+//    CURL *curl;
+//    FILE *fp;
+//    CURLcode res;
+//
+//    url += out_file_name;
+//    curl = curl_easy_init();
+//
+//    if( curl ) 
+//    {
+//        fp = fopen( out_file_name.c_str(), "wb" );
+//        curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
+//
+//        curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
+//        curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );
+//
+//        res = curl_easy_perform( curl );
+//        /* always cleanup */
+//        curl_easy_cleanup( curl );
+//        fclose( fp );
+//
+//        std::cout << "created file: " << out_file_name << std::endl;
+//    }
+//}
+//

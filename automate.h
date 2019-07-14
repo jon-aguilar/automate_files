@@ -82,7 +82,8 @@ private:
 
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
-    void download_pdf( std::string url, std::string out_file_name );
+    //void download_pdf( std::string url, std::string out_file_name );
+    void download_pdf( std::string url, std::string file_to_get, std::string hw_dir );
 
 };
 
