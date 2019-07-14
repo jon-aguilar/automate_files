@@ -181,7 +181,6 @@ void automate::download_pdf( std::string url, std::string file_to_get, std::stri
     {
         std::string temp = curr_work_dir;
         out_file = temp + "/" + hw_dir + "/" + file_to_get; 
-        std::cout << "location: " << out_file << std::endl;
     }
     else
         std::cout << "error with cwd\n";
@@ -190,7 +189,6 @@ void automate::download_pdf( std::string url, std::string file_to_get, std::stri
     if( curl ) 
     {
         fp = fopen( out_file.c_str(), "wb" );
-        //fp = fopen( file_to_get.c_str(), "wb" );
         curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
 
         curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
@@ -201,34 +199,9 @@ void automate::download_pdf( std::string url, std::string file_to_get, std::stri
         curl_easy_cleanup( curl );
         fclose( fp );
 
-        std::cout << "created file: " << file_to_get << std::endl;
+        std::cout << "created file: " << out_file << std::endl;
+        //std::cout << "created file: " << file_to_get << std::endl;
     }
 }
 
 
-//void automate::download_pdf( std::string url, std::string out_file_name )
-//{
-//    CURL *curl;
-//    FILE *fp;
-//    CURLcode res;
-//
-//    url += out_file_name;
-//    curl = curl_easy_init();
-//
-//    if( curl ) 
-//    {
-//        fp = fopen( out_file_name.c_str(), "wb" );
-//        curl_easy_setopt( curl, CURLOPT_URL, url.c_str() );
-//
-//        curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, write_data );
-//        curl_easy_setopt( curl, CURLOPT_WRITEDATA, fp );
-//
-//        res = curl_easy_perform( curl );
-//        /* always cleanup */
-//        curl_easy_cleanup( curl );
-//        fclose( fp );
-//
-//        std::cout << "created file: " << out_file_name << std::endl;
-//    }
-//}
-//
