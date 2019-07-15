@@ -38,7 +38,7 @@
 automate::automate( std::string url )
 {
     std::string html_str = html_to_string( url );
-    store_html_conent( html_str );
+    store_html_content( html_str );
     store_hw_names( );
 }
 
@@ -66,8 +66,6 @@ std::string automate::html_to_string( std::string url )
 
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
-
-        //std::cout << readBuffer << std::endl;
     }
 
     return readBuffer;
@@ -75,7 +73,7 @@ std::string automate::html_to_string( std::string url )
 
 // each element in the vector 
 // will have line from html_str
-void automate::store_html_conent( std::string html_str )
+void automate::store_html_content( std::string html_str )
 { 
     std::stringstream the_stream( html_str ); 
     std::string token; 
@@ -85,19 +83,11 @@ void automate::store_html_conent( std::string html_str )
     { 
         html_lines.push_back( token ); 
     } 
-
-    //// Printing the token vector 
-    //for(int i = 0; i < html_lines.size(); i++) 
-    //    std::cout << "i: " << i << " " << html_lines[i] << '\n'; 
 } 
 
 
 void automate::store_hw_names( )
 {
-    // variable count is for testing only 
-    // just checking the hw_files are being found
-    //int count = 0;
-
     // stop at size - 1 
     // to avoid going out of bounds 
     // in the vector 
@@ -111,8 +101,6 @@ void automate::store_hw_names( )
         if( html_lines[i].find("homework") != std::string::npos  &&
             html_lines[i + 1].find(".pdf") != std::string::npos )
         {
-            //std::cout << "i: " << i << " " << html_lines[i + 1] << std::endl; 
-            
             std::stringstream file_name_line( html_lines[i + 1] );
             std::string token;
             
@@ -122,25 +110,18 @@ void automate::store_hw_names( )
             {
                 if( token.find(".pdf") != std::string::npos )
                 {
-                    //std::cout << "\ttoken: " << token << std::endl;
                     hw_file_name.push_back( token );
                 }
 
             }
-            //count++;
         }
     }
-    //std::cout << "count = " << count << std::endl;
 }
 
 // if dir already exists then the mkdir will
 // fail. the mikdir doc says that it will fail in that condition
 void automate::create_dir( std::string url )
 {
-    //std::string html_str = html_to_string( url );
-    //store_html_conent( html_str );
-    //store_hw_names( );
-
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
         // creating the directory name
@@ -157,13 +138,9 @@ void automate::create_dir( std::string url )
         if( mkdir( dir_name, 0777) == -1 ) 
         {
             std::cerr << "---directory " << dir_name << " already created\n"; 
-            //std::cout << "IN IF i: " <<  i  << "--------------------\n"; 
             continue;
         }
-        //else
-        //    std::cout << "Directory " <<  dir_name  << " created\n"; 
         download_pdf( url, hw_file_name[i], dir_name );
-        //std::cout << "OUTSIDE  i: " <<  i  << std::endl;
     }
 }
 
@@ -217,7 +194,6 @@ void automate::download_pdf( std::string url, std::string file_to_get, std::stri
         fclose( fp );
 
         std::cout << "created file: " << out_file << std::endl;
-        //std::cout << "created file: " << file_to_get << std::endl;
     }
 }
 

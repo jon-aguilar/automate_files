@@ -29,41 +29,11 @@
 #include <vector>
 
 
-/*
-    -------------------- JON NOTES FOR PROJECT -----------------
-    1.  save the variable res into a string 
-        then inside the string you will parse 
-        probably by newlines save the results in 
-        a vector
-
-    2.  filter out the parsed-vector and look for 
-        pdf file names. Save the pdf file names in
-        an other vector.
-
-    3.  next save the pdf file names in a file.txt
-        this will help me avoid creating multiple directory 
-        names.  the directory names will be based on the pdf files that were found
-        and since the brezeale_html file will be opened multiple times i 
-        dont want to overwrite the existing directories that have been created already
-        since steps 1 and 2 not know what directories have been created.
-*/
-
-
-//                          NOTE: 
-//      when constructing directory names ( EX: hw01, hw02, ... )
-//      remember the index of the element (vector) is basically telling you the number for 
-//      the directory and since i know the directory name will start will hw_then_the_number
-
-//      vector                      dir_names  (then convert num to string and pad zero )
-//      i: 0    2320-hw01           hw01       i+1 to get number 
-//      i: 1    2320-hw02           hw02       i+1 to get number
-//      i: 2    2320-hw03           hw03       i+1 to get number
-
 class automate
 {
 public:
     std::string html_to_string( std::string url );
-    void store_html_conent( std::string html_str ); 
+    void store_html_content( std::string html_str ); 
     void store_hw_names( ); 
     void create_dir( std::string url );
 
