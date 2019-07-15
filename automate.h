@@ -32,14 +32,10 @@
 class automate
 {
 public:
-    std::string html_to_string( std::string url );
-    void store_html_content( std::string html_str ); 
-    void store_hw_names( ); 
-    void create_dir( std::string url );
-
     automate( std::string url );
-
+    void create_dir( std::string url );
      
+
 private:
     std::vector <std::string> html_lines;
 
@@ -48,9 +44,11 @@ private:
 
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
-
+    
+    std::string html_to_string( std::string url );
+    void store_html_content( std::string html_str ); 
+    void store_hw_names( ); 
     void download_pdf( std::string url, std::string file_to_get, std::string hw_dir );
-
 };
 
 #endif
