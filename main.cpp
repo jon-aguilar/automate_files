@@ -58,18 +58,13 @@ int main( void )
     automate a;
 
     std::cout << "in the main right now\n";
-        //curl_easy_setopt(curl, CURLOPT_URL, "http://omega.uta.edu/~darin/CSE2320/");
-    
-    //std::string html_str = a.html_to_string( "http://omega.uta.edu/~darin/CSE2320/" );
      
     std::string url = "http://omega.uta.edu/~darin/CSE2320/";
 
     std::string html_str = a.html_to_string( url );
-    //std::cout << html_str << std::endl;
-    a.load_html_vector( html_str );
-    a.load_hw_vector( );
-    a.create_dir_n_pdf( url );
-    //a.download_pdf( url );
+    a.store_html_conent( html_str );
+    a.store_hw_names( );
+    a.create_dir( url );
 
 
     return 0;

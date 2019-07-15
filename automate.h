@@ -49,12 +49,6 @@
 */
 
 
-// ---------  TODO: -----------------------------------------------------------------------------
-//
-//      Now that the hw_file_name vector is populated 
-//      I need to download that file from brezeale website
-//      which will require doing more libcurl 
-
 //                          NOTE: 
 //      when constructing directory names ( EX: hw01, hw02, ... )
 //      remember the index of the element (vector) is basically telling you the number for 
@@ -69,9 +63,9 @@ class automate
 {
 public:
     std::string html_to_string( std::string url );
-    void load_html_vector( std::string html_str ); 
-    void load_hw_vector( ); 
-    void create_dir_n_pdf( std::string url );
+    void store_html_conent( std::string html_str ); 
+    void store_hw_names( ); 
+    void create_dir( std::string url );
 
      
 private:
@@ -82,6 +76,7 @@ private:
 
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
     static size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
     void download_pdf( std::string url, std::string file_to_get, std::string hw_dir );
 
 };

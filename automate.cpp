@@ -68,7 +68,7 @@ std::string automate::html_to_string( std::string url )
 
 // each element in the vector 
 // will have line from html_str
-void automate::load_html_vector( std::string html_str )
+void automate::store_html_conent( std::string html_str )
 { 
     std::stringstream the_stream( html_str ); 
     std::string token; 
@@ -85,11 +85,11 @@ void automate::load_html_vector( std::string html_str )
 } 
 
 
-void automate::load_hw_vector( )
+void automate::store_hw_names( )
 {
     // variable count is for testing only 
     // just checking the hw_files are being found
-    int count = 0;
+    //int count = 0;
 
     // stop at size - 1 
     // to avoid going out of bounds 
@@ -120,21 +120,21 @@ void automate::load_hw_vector( )
                 }
 
             }
-            count++;
+            //count++;
         }
     }
-    std::cout << "count = " << count << std::endl;
+    //std::cout << "count = " << count << std::endl;
 }
-
-//                       TODO ------------------------------------------------------------------------
-
-// fix for multiple directories
-// look back at my notes for fixing the problem 
 
 // if dir already exists then the mkdir will
 // fail. the mikdir doc says that it will fail in that condition
-void automate::create_dir_n_pdf( std::string url )
+void automate::create_dir( std::string url )
 {
+    //std::string html_str = html_to_string( url );
+    //store_html_conent( html_str );
+    //store_hw_names( );
+
+
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
         // creating the directory name
@@ -144,11 +144,20 @@ void automate::create_dir_n_pdf( std::string url )
         std::cout << "dir_name: " << dir_name << std::endl;
 
         // Creating directory 
-        if ( mkdir( dir_name, 0777) == -1 ) 
-            std::cerr << "Error creating directory\n"; 
+        // if the directory is created then 
+        // then that means the pdf has already 
+        // been downloaded before and does not 
+        // need to re-download the pdf
+        if( mkdir( dir_name, 0777) == -1 ) 
+        {
+            std::cerr << "---directory " << dir_name << " already created\n"; 
+            //std::cout << "IN IF i: " <<  i  << "--------------------\n"; 
+            continue;
+        }
         //else
         //    std::cout << "Directory " <<  dir_name  << " created\n"; 
         download_pdf( url, hw_file_name[i], dir_name );
+        //std::cout << "OUTSIDE  i: " <<  i  << std::endl;
     }
 }
 
@@ -186,6 +195,8 @@ void automate::download_pdf( std::string url, std::string file_to_get, std::stri
         std::cout << "error with cwd\n";
 
     // download the hw file from the website
+    // the pdf path and saved file name will be 
+    // stored in out_file
     if( curl ) 
     {
         fp = fopen( out_file.c_str(), "wb" );
