@@ -53,18 +53,25 @@
 */
 
 
-int main( void )
+int main( int argc, char* argv[] )
 {
-    automate a;
+    // ./a.out <url>
+    if( argc == 2 )
+    {
+        //std::string url = "http://omega.uta.edu/~darin/CSE2320/";
+        std::string url = argv[1];
+        automate a( url );
 
-    std::cout << "in the main right now\n";
-     
-    std::string url = "http://omega.uta.edu/~darin/CSE2320/";
+        std::cout << "in the main right now\n";
 
-    std::string html_str = a.html_to_string( url );
-    a.store_html_conent( html_str );
-    a.store_hw_names( );
-    a.create_dir( url );
+        //std::string html_str = a.html_to_string( url );
+        //a.store_html_conent( html_str );
+        //a.store_hw_names( );
+        a.create_dir( url );
+    }
+    else 
+        std::cout << "error: ./a.out <url>\n";
+    //std::cout << argv[0] << std::endl;
 
 
     return 0;

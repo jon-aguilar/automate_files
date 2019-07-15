@@ -67,6 +67,8 @@ public:
     void store_hw_names( ); 
     void create_dir( std::string url );
 
+    automate( std::string url );
+
      
 private:
     std::vector <std::string> html_lines;

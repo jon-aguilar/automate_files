@@ -35,6 +35,13 @@
 #include <unistd.h>
 
 
+automate::automate( std::string url )
+{
+    std::string html_str = html_to_string( url );
+    store_html_conent( html_str );
+    store_hw_names( );
+}
+
 // will be used to convert the html file to string 
 size_t automate::WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -133,7 +140,6 @@ void automate::create_dir( std::string url )
     //std::string html_str = html_to_string( url );
     //store_html_conent( html_str );
     //store_hw_names( );
-
 
     for( int i = 0; i < hw_file_name.size(); i++ )
     {
